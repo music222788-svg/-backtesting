@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+cs2026/s4/cache/
+cs2026/s4/logs/
