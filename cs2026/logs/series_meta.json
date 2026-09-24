@@ -1,0 +1,38 @@
+{
+ "SPY": {
+  "real_start": "1993-01-29",
+  "proxy": "없음(전 구간 실데이터)"
+ },
+ "QQQ": {
+  "real_start": "1999-03-10",
+  "proxy": "없음(전 구간 실데이터)"
+ },
+ "IEF": {
+  "real_start": "2002-07-30",
+  "proxy": "FRED DGS7/DGS10 보간 8.5년 par bond 총수익 - 0.15%"
+ },
+ "GLD": {
+  "real_start": "2004-11-18",
+  "proxy": "LBMA 금 PM fix - 0.40%"
+ },
+ "TQQQ": {
+  "real_start": "2010-02-11",
+  "proxy": "3x NDX총수익 - 2x3M금리 - 0.84%"
+ },
+ "SGOV": {
+  "real_start": "2020-06-01",
+  "proxy": "3M 국채 BEY 일할수익"
+ },
+ "SCHD_a": {
+  "real_start": "2011-10-20",
+  "proxy": "SPY"
+ },
+ "SCHD_b": {
+  "real_start": "2011-10-20",
+  "proxy": "IWD (>= 2000-05-26) / 그 이전 VWNFX"
+ },
+ "SCHD_c": {
+  "real_start": "2011-10-20",
+  "proxy": "DVY (>= 2003-11-07) / 그 이전 VEIPX"
+ }
+}

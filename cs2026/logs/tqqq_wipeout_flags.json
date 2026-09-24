@@ -1,0 +1,14 @@
+{
+ "2000-01-03": {
+  "wipeout": true,
+  "first_below": "2001-08-30",
+  "min_index": 0.00042378419886348294,
+  "min_date": "2009-03-09"
+ },
+ "2020-01-02": {
+  "wipeout": false,
+  "first_below": null,
+  "min_index": 0.4147508002063862,
+  "min_date": "2020-03-16"
+ }
+}

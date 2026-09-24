@@ -1,0 +1,25 @@
+{
+ "tracking": {
+  "asset": "SPTL",
+  "overlap_start": "2007-05-31",
+  "overlap_end": "2026-09-16",
+  "n": 4855,
+  "real_cagr": 0.03026952079146983,
+  "proxy_cagr": 0.0299338897171324,
+  "cagr_gap_pp": -0.0335631074337428,
+  "corr": 0.9697466625850892,
+  "daily_mean_diff_bp": -0.02090771413810502,
+  "te_ann_pct": 3.3301961280731174
+ },
+ "quality": {
+  "rows": 4857,
+  "na": 0,
+  "zero_or_neg": 0,
+  "max_abs_dret": 0.07189787821993199,
+  "dup": 0
+ },
+ "real_start": "2007-05-30",
+ "proxy": "VUSTX 1986-05-19~2007-05-29",
+ "source": "Yahoo SPTL / Yahoo VUSTX",
+ "downloaded": "2026-09-18"
+}

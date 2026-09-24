@@ -1,0 +1,241 @@
+[
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "SPY",
+  "file": "SPY.csv",
+  "rows": 8465,
+  "first": "1993-01-29",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1993-01-29",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "QQQ",
+  "file": "QQQ.csv",
+  "rows": 6923,
+  "first": "1999-03-10",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1999-03-10",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "SCHD",
+  "file": "SCHD.csv",
+  "rows": 3747,
+  "first": "2011-10-20",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2011-10-20",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "IEF",
+  "file": "IEF.csv",
+  "rows": 6072,
+  "first": "2002-07-30",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2002-07-30",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "GLD",
+  "file": "GLD.csv",
+  "rows": 5490,
+  "first": "2004-11-18",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2004-11-18",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "TQQQ",
+  "file": "TQQQ.csv",
+  "rows": 4174,
+  "first": "2010-02-11",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2010-02-11",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "SGOV",
+  "file": "SGOV.csv",
+  "rows": 1582,
+  "first": "2020-06-01",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2020-06-01",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "IWD",
+  "file": "IWD.csv",
+  "rows": 6615,
+  "first": "2000-05-26",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2000-05-26",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "DVY",
+  "file": "DVY.csv",
+  "rows": 5749,
+  "first": "2003-11-07",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "2003-11-07",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "VEIPX",
+  "file": "VEIPX.csv",
+  "rows": 9695,
+  "first": "1988-03-21",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1988-03-21",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "VWNFX",
+  "file": "VWNFX.csv",
+  "rows": 10387,
+  "first": "1985-06-24",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1985-06-24",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "^NDX",
+  "file": "NDX.csv",
+  "rows": 10319,
+  "first": "1985-10-01",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1985-10-01",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "^GSPC",
+  "file": "GSPC.csv",
+  "rows": 14298,
+  "first": "1970-01-02",
+  "last": "2026-09-16",
+  "yahoo_firstTradeDate": "1927-12-30",
+  "currency": "USD",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "FRED (fredgraph.csv)",
+  "symbol": "DEXKOUS",
+  "file": "FRED_DEXKOUS.csv",
+  "rows": 11352,
+  "first": "1981-04-13",
+  "last": "2026-09-11",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "FRED (fredgraph.csv)",
+  "symbol": "DGS7",
+  "file": "FRED_DGS7.csv",
+  "rows": 14291,
+  "first": "1969-07-01",
+  "last": "2026-09-15",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "FRED (fredgraph.csv)",
+  "symbol": "DGS10",
+  "file": "FRED_DGS10.csv",
+  "rows": 16161,
+  "first": "1962-01-02",
+  "last": "2026-09-15",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "FRED (fredgraph.csv)",
+  "symbol": "DTB3",
+  "file": "FRED_DTB3.csv",
+  "rows": 18167,
+  "first": "1954-01-04",
+  "last": "2026-09-15",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "LBMA (prices.lbma.org.uk/json/gold_pm.json), PM fix USD/oz",
+  "symbol": "GOLD_PM",
+  "file": "LBMA_gold_pm.csv",
+  "rows": 14684,
+  "first": "1968-04-01",
+  "last": "2026-09-16",
+  "downloaded": "2026-09-17T13:26:07+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "SPTL",
+  "file": "SPTL.csv",
+  "rows": 4857,
+  "first": "2007-05-30",
+  "last": "2026-09-17",
+  "yahoo_firstTradeDate": "2007-05-30",
+  "currency": "USD",
+  "downloaded": "2026-09-18T07:11:56+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "VUSTX",
+  "file": "VUSTX.csv",
+  "rows": 10161,
+  "first": "1986-05-19",
+  "last": "2026-09-17",
+  "yahoo_firstTradeDate": "1986-05-19",
+  "currency": "USD",
+  "downloaded": "2026-09-18T07:11:56+04:00"
+ },
+ {
+  "source": "Yahoo Finance chart API v8",
+  "symbol": "TLT",
+  "file": "TLT.csv",
+  "rows": 6073,
+  "first": "2002-07-30",
+  "last": "2026-09-17",
+  "yahoo_firstTradeDate": "2002-07-30",
+  "currency": "USD",
+  "downloaded": "2026-09-18T07:11:56+04:00"
+ },
+ {
+  "source": "FRED",
+  "symbol": "DGS20",
+  "file": "FRED_DGS20.csv",
+  "rows": 14473,
+  "first": "1962-01-02",
+  "last": "2026-09-16",
+  "downloaded": "2026-09-18T07:11:56+04:00"
+ },
+ {
+  "source": "FRED",
+  "symbol": "DGS30",
+  "file": "FRED_DGS30.csv",
+  "rows": 12392,
+  "first": "1977-02-15",
+  "last": "2026-09-16",
+  "downloaded": "2026-09-18T07:11:56+04:00"
+ }
+]
