@@ -43,14 +43,14 @@ def label_end(ax, series, keys, fmt):
             y = np.log10(v)
         ys.append([y, k, v])
     gap = (np.log10(hi)-np.log10(lo) if ax.get_yscale() == 'log' else hi-lo)*0.045
-    for i in range(1, len(ys)):
+    for i in range(1, len(ys)):                      # 아래에서 위로 겹침 해소
         if ys[i][0]-ys[i-1][0] < gap:
             ys[i][0] = ys[i-1][0]+gap
     x = series[keys[0]].index[-1]
     for y, k, v in ys:
         yy = 10**y if ax.get_yscale() == 'log' else y
         ax.annotate(f'{LBL.get(k, k)} {fmt(v)}', (x, yy), xytext=(6, 0), textcoords='offset points',
-                    va='center', fontsize=8, color='#0b0b0b')
+                    va='center', fontsize=8, color='#0b0b0b', annotation_clip=False)
 
 
 def main():
@@ -63,6 +63,7 @@ def main():
                 ax.plot(ser[k].index, ser[k].values, lw=2 if k in ('P3', 'B-opt') else 1.4,
                         color=COL[k], label=LBL.get(k, k))
             ax.set_yscale('log')
+            lo, hi = ax.get_ylim(); ax.set_ylim(lo, hi*1.35)
             ax.grid(True, axis='y', lw=.6)
             ax.set_ylabel('평가액 (USD, 로그)')
             label_end(ax, ser, keys, lambda v: f'${v:,.0f}')
@@ -96,7 +97,7 @@ def main():
     RD.to_csv(S4/'s4_roll10_cs.csv', encoding='utf-8-sig')
     order = RD.median().sort_values().index.tolist()
     fig, ax = plt.subplots(figsize=(10, 6.2))
-    bp = ax.boxplot([RD[k] for k in order], vert=False, widths=.55, whis=(0, 100), patch_artist=True,
+    bp = ax.boxplot([RD[k] for k in order], orientation='horizontal', widths=.55, whis=(0, 100), patch_artist=True,
                     medianprops=dict(color='#0b0b0b', lw=1.6))
     for patch, k in zip(bp['boxes'], order):
         patch.set_facecolor('#2a78d6' if k in ('P3', 'B-opt') else '#cfe0f6')

@@ -7,8 +7,10 @@ python s4_analyze.py stage2   -> 세분화 포함 최종 판정, B-opt 확정(ca
   - 구간 A·B·C: 세후 Sharpe (세후 자산곡선, 무위험 = 3M 국채)  [주 기준]
   - 롤링 10년: 월별 시작 10년 세후 CAGR 의 최솟값
   - 부트스트랩: 구간 A, 구간 C 각각의 CAGR 하위 10% (둘 다 요구)
-  => 6개 기준 모두 66개 중 상위 1/3(22위 이내)
-  민감도: 구간 A·B·C 기준을 세후 CAGR 로 바꾼 판정도 병기
+  => 6개 기준 모두 66개 중 상위 1/3(22위 이내)  = 엄격 안정 영역 (stable_main)
+  민감도: 구간 A·B·C 기준을 세후 CAGR 로 바꾼 판정도 병기 (stable_alt)
+  엄격 영역이 비면 사전에 정한 단일 완화 규칙을 적용: 상위 1/3 -> 상위 1/2 (33위 이내)
+  = 완화 안정 영역 (relax_main / relax_alt). B-opt 는 완화 영역(세분화 포함)의 중심 조합.
 세분화 조합은 66개 기준으로 정한 '상위 1/3 경계값'을 동일하게 적용해 판정한다.
 """
 import sys, pathlib, pickle, json, itertools
@@ -65,9 +67,9 @@ def criteria(crit_abc):
                                                         ('bootA_cagr_p10', True), ('bootC_cagr_p10', True)]
 
 
-def stable(W, crit_abc, tag):
+def stable(W, crit_abc, tag, frac=1/3):
     base = W[W.grid == '10%p']
-    n_top = int(np.ceil(len(base)/3))            # 66 -> 22
+    n_top = int(np.ceil(len(base)*frac))         # 66 -> 22 (1/3), 33 (1/2)
     ok = pd.Series(True, index=W.index)
     thr = {}
     for c, hi in criteria(crit_abc):
@@ -81,7 +83,7 @@ def stable(W, crit_abc, tag):
 
 
 def neighbors5(W):
-    st = W[(W.grid == '10%p') & W.stable_main]
+    st = W[(W.grid == '10%p') & (W.relax_main | W.relax_alt)]
     pts = set()
     for s, q in itertools.product(range(0, 21), range(0, 21)):
         if s+q > 20:
@@ -122,6 +124,7 @@ def heatmaps(W, bopt=None):
     from matplotlib import font_manager as fm
     fm.fontManager.addfont('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc')
     plt.rcParams['font.family'] = 'WenQuanYi Zen Hei'
+    import logging; logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
     plt.rcParams['axes.unicode_minus'] = False
     base = W[W.grid == '10%p']
     specs = [('CAGR_세후', '세후 CAGR (%)', 100, 'Blues', True),
@@ -141,8 +144,10 @@ def heatmaps(W, bopt=None):
             dark = (v-vmin)/(vmax-vmin+1e-12) > .6
             ax.text(x, y, fmt(v), ha='center', va='center', fontsize=6.3,
                     color='white' if dark else '#222222')
-            if r.stable_main:
-                ax.add_patch(plt.Rectangle((x-5, y-5), 10, 10, fill=False, ec='#eb6834', lw=1.6))
+            if r.relax_main:
+                ax.add_patch(plt.Rectangle((x-5, y-5), 10, 10, fill=False, ec='#eb6834', lw=2.0))
+            elif r.relax_alt:
+                ax.add_patch(plt.Rectangle((x-5, y-5), 10, 10, fill=False, ec='#eb6834', lw=1.2, ls='--'))
         for k, (s, p, q) in REF_B.items():
             ax.plot(s*100, q*100, marker='o', ms=13, mfc='none', mec='#111111', mew=1.2)
             ax.annotate(k, (s*100, q*100), xytext=(7, 7), textcoords='offset points', fontsize=8,
@@ -158,8 +163,9 @@ def heatmaps(W, bopt=None):
             sp.set_visible(False)
         return im
 
-    note = ('SPY = 100 − SCHD − QQQ.  주황 테두리 = 안정 영역(6개 기준 모두 상위 1/3).  '
-            '○ = 기존 B 후보.  ★ = B-opt.  원천징수 15% 적용, 10%p 격자 66개.')
+    note = ('SPY = 100 - SCHD - QQQ.  엄격 안정 영역(6개 기준 모두 상위 1/3) = 해당 조합 없음.  '
+            '주황 실선 = 완화 안정 영역(상위 1/2, 세후 Sharpe 기준), 주황 점선 = 같은 완화에서 세후 CAGR 기준으로만 포함.  '
+            '○ = 기존 B 후보.  ★ = B-opt.  원천징수 15% 적용.')
     for m, lab, mul, cmap, hi in specs:
         fig, axes = plt.subplots(1, 3, figsize=(15.5, 5.4))
         vals = {p: base[f'{p}_{m}']*mul for p in 'ABC'}
@@ -189,12 +195,16 @@ if __name__ == '__main__':
     LONG, W, RECS = load()
     thr = stable(W, MAIN, 'main')
     stable(W, ALT, 'alt')
+    thr_r = stable(W, MAIN, 'relax_main', 1/2)
+    stable(W, ALT, 'relax_alt', 1/2)
+    W['relax_main'] = W['stable_relax_main']; W['relax_alt'] = W['stable_relax_alt']
     pd.set_option('display.width', 250); pd.set_option('display.max_columns', 40)
     cols = ['key', 'grid', 'A_Sharpe_세후', 'B_Sharpe_세후', 'C_Sharpe_세후', 'roll10_min',
-            'bootA_cagr_p10', 'bootC_cagr_p10', 'C_CAGR_세후', 'C_MDD', 'stable_main', 'stable_alt']
+            'bootA_cagr_p10', 'bootC_cagr_p10', 'C_CAGR_세후', 'C_MDD', 'relax_main', 'relax_alt']
     if stage == 'stage1':
         print('기준 경계값(상위 1/3):', {k: round(v, 4) for k, v in thr.items()})
-        print(W[W.stable_main][cols].round(4).to_string(index=False))
+        print('strict main', int(W.stable_main.sum()), 'strict alt', int(W.stable_alt.sum()))
+        print(W[W.relax_main | W.relax_alt][cols].round(4).to_string(index=False))
         print('\nalt 안정:', list(W[W.stable_alt].key))
         ref = neighbors5(W)
         json.dump(ref, open(S4/'cache'/'refine_list.json', 'w'))
@@ -202,27 +212,32 @@ if __name__ == '__main__':
         o, rho, rho_c = oos(W)
         print(o.round(3).to_string(index=False)); print('spearman sharpe', rho, 'cagr', rho_c)
     else:
-        st = W[W.stable_main].copy()
+        st = W[W.relax_main].copy()
         cen = st[['SCHD', 'SPY', 'QQQ']].mean()
         st['dist'] = np.sqrt(((st[['SCHD', 'SPY', 'QQQ']]-cen)**2).sum(axis=1))
         rk = [f'rank10_{c}' for c, _ in criteria(MAIN)]
         # 세분화 조합은 66개 순위가 없으므로 66개 기준 분포에서의 백분위로 대신 비교
         base = W[W.grid == '10%p']
         for c, _ in criteria(MAIN):
-            st[f'pct_{c}'] = st[c].apply(lambda v: (base[c] > v).mean()*100)   # 상위 몇 %
+            st[f'pct_{c}'] = st[c].apply(lambda v: (base[c] > v).mean()*100)   # 66개 중 이보다 좋은 비율(%)
         st['worst_pct'] = st[[f'pct_{c}' for c, _ in criteria(MAIN)]].max(axis=1)
-        st = st.sort_values(['dist', 'worst_pct'])
+        st['mean_pct'] = st[[f'pct_{c}' for c, _ in criteria(MAIN)]].mean(axis=1)
+        # 중심(평균 비중)에 가장 가까운 조합. 동률이면 최악 백분위, 그다음 평균 백분위가 좋은 쪽
+        st['dist'] = st['dist'].round(9)
+        st = st.sort_values(['dist', 'worst_pct', 'mean_pct'])
         b = st.iloc[0]
         bopt = {'SCHD': round(float(b.SCHD), 4), 'SPY': round(float(b.SPY), 4), 'QQQ': round(float(b.QQQ), 4)}
         json.dump(bopt, open(S4/'cache'/'bopt.json', 'w'))
         json.dump(dict(centroid=cen.round(4).to_dict(), n_stable=int(len(st)),
-                       n_stable_10=int((st.grid == '10%p').sum()), thresholds=thr, bopt=bopt,
-                       stable=st[['key', 'SCHD', 'SPY', 'QQQ', 'grid', 'dist', 'worst_pct']
+                       n_stable_10=int((st.grid == '10%p').sum()), thresholds_strict_1_3=thr, thresholds_relaxed_1_2=thr_r,
+                       n_strict_main=int(W.stable_main.sum()), n_strict_alt=int(W.stable_alt.sum()),
+                       relax_alt=list(W[W.relax_alt].key), bopt=bopt,
+                       stable=st[['key', 'SCHD', 'SPY', 'QQQ', 'grid', 'dist', 'worst_pct', 'mean_pct']
                                  + [f'pct_{c}' for c, _ in criteria(MAIN)]].round(4).to_dict('records')),
                   open(S4/'cache'/'stable_region.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         print('centroid', cen.round(4).to_dict(), '-> B-opt', bopt)
-        print(st[['key', 'grid', 'dist', 'worst_pct'] + [f'pct_{c}' for c, _ in criteria(MAIN)]].round(2).to_string(index=False))
-        LONG = LONG.merge(W[['key', 'stable_main', 'stable_alt']], on='key')
+        print(st[['key', 'grid', 'dist', 'worst_pct', 'mean_pct'] + [f'pct_{c}' for c, _ in criteria(MAIN)]].round(2).to_string(index=False))
+        LONG = LONG.merge(W[['key', 'stable_main', 'stable_alt', 'relax_main', 'relax_alt']], on='key')
         LONG.to_csv(S4/'s4_grid.csv', index=False, encoding='utf-8-sig')
         W.to_csv(S4/'cache'/'s4_grid_wide.csv', index=False, encoding='utf-8-sig')
         o, rho, rho_c = oos(W)
