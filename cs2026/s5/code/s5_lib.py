@@ -104,7 +104,8 @@ def dca_metrics(out, cs, FXv):
                 원금하회_최장거래일=int(best), 원금대비_최대평가손실=max(0.0, loss),
                 목표25억_최초도달=(str(cal[reach[0]].date()) if len(reach) else '미도달'),
                 리밸런싱매도_원화=out['reb_sell_krw'], 리밸런싱실현이익_원화=out['reb_gain_krw'],
-                TQQQ연말최대매수_원화=out['tq_buy_max_krw'], 그때_TQQQ고점대비=out['tq_buy_dd'])
+                TQQQ연말최대매수_원화=out['tq_buy_max_krw'], 그때_TQQQ고점대비=out['tq_buy_dd'],
+                TQQQ연말최대매수_일자=out['tq_buy_date'])
 
 
 def syn3_first_below(cal, thr=0.01):

@@ -142,7 +142,7 @@ def simulate(spec, Rv, Dv, FXv, cs, *, init_usd=None, init_krw=None, contrib_krw
     years = []
     pend_i, pend_breach, pend_satw = -1, False, 0.0
     reb_sell_usd = 0.0; reb_sell_krw = 0.0; reb_gain_usd = 0.0; reb_gain_krw = 0.0
-    tq_buy_max_krw, tq_buy_dd = 0.0, np.nan
+    tq_buy_max_krw, tq_buy_dd, tq_buy_i = 0.0, np.nan, -1
     tax_krw_tot = 0.0
     hit_i, end_i = freeze if freeze else (-1, -1)
     if tq_level is not None:
@@ -219,6 +219,7 @@ def simulate(spec, Rv, Dv, FXv, cs, *, init_usd=None, init_krw=None, contrib_krw
                     amt = d[tq]*(1.0+c)*fx
                     if amt > tq_buy_max_krw:
                         tq_buy_max_krw = amt
+                        tq_buy_i = i
                         if tq_level is not None:
                             tq_buy_dd = tq_level[i]/tq_peak[i]-1.0
                 v = new
@@ -262,7 +263,8 @@ def simulate(spec, Rv, Dv, FXv, cs, *, init_usd=None, init_krw=None, contrib_krw
     out = dict(eq=eq, paid_in=paid_in, fx_cost=fxc_tot, tax_krw=tax_krw_tot,
                reb_sell_usd=reb_sell_usd, reb_sell_krw=reb_sell_krw,
                reb_gain_usd=reb_gain_usd, reb_gain_krw=reb_gain_krw,
-               tq_buy_max_krw=tq_buy_max_krw, tq_buy_dd=tq_buy_dd)
+               tq_buy_max_krw=tq_buy_max_krw, tq_buy_dd=tq_buy_dd,
+               tq_buy_date=(str(cs['cal'][tq_buy_i].date()) if tq_buy_i >= 0 else ''))
     if record:
         out['paid'] = paid
         out['years'] = pd.DataFrame(years)
